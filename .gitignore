@@ -1,0 +1,5 @@
+/target/
+/.mvn/wrapper/*.jar
+/java_pid*/
+/src/test/resources/api_user_tokens.csv
+/src/test/resources/scripts/generate_tokens.py
