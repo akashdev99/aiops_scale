@@ -6,15 +6,7 @@ import io.gatling.javaapi.core.Simulation;
 import io.gatling.javaapi.http.HttpProtocolBuilder;
 import model.TenantData;
 import org.xerial.snappy.Snappy;
-import remotewrite.PromMetric;
-import remotewrite.Remote;
-import remotewrite.Types;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -75,13 +67,11 @@ public class CdoDataIngestion extends Simulation {
                 System.out.println("max size is" + maxHeap);
                 cdoTokens = CdoAuthUtils.getCdoTokenList();
                 deviceUuidList = CdoAuthUtils.getDeviceList();
-                System.out.println(deviceUuidList);
-
             } catch (Exception e) {
                 System.out.println("Failed to set tokens");
                 e.printStackTrace();
             }
-            System.out.println("Tokens are set tokens");
+            System.out.println("Tokens are set");
             setUp(
                     cdoIngestionScenario.injectOpen(atOnceUsers(MAX_USERS))
             ).protocols(httpCDOProtocol);
