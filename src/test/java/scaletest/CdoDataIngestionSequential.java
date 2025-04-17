@@ -23,19 +23,10 @@ public class CdoDataIngestionSequential extends Simulation {
 
     private static List<TenantData> cdoTokens = new ArrayList<TenantData>();
     private static ArrayList<String> deviceUuidList = new ArrayList<String>();
-    private static final AtomicInteger tokenIndex = new AtomicInteger(0);
 
     private static final int MAX_USERS = Config.getInt("max.users", 1);
     private static final int DURATION_MINUTES = Config.getInt("duration.minutes", 1);
 
-    private io.gatling.javaapi.core.Session setSessionTenantDetails(io.gatling.javaapi.core.Session session){
-        int count = tokenIndex.getAndIncrement();
-        int index = count % MAX_USERS;
-        TenantData tokenData = cdoTokens.get(index);
-        String currentToken = tokenData.getToken();
-        String currentTenantUuid = tokenData.getUuid();
-        return session.set("authToken", currentToken).set("tenantUuid", currentTenantUuid );
-    }
 
     HttpProtocolBuilder httpCDOProtocol =
             http.baseUrl(BASE_URL)
