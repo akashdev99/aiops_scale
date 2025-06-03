@@ -6,13 +6,12 @@ import io.gatling.javaapi.core.Simulation;
 import io.gatling.javaapi.http.HttpProtocolBuilder;
 import model.TenantData;
 import org.xerial.snappy.Snappy;
-import utils.CdoAuthUtils;
+import utils.CdoUtils;
 import utils.RemoteWriteUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;
@@ -87,8 +86,8 @@ public class CdoDataIngestionSequential extends Simulation {
 
         {
             try {
-                cdoTokens = CdoAuthUtils.getCdoTokenList();
-                deviceUuidList = CdoAuthUtils.getDeviceList();
+                cdoTokens = CdoUtils.getCdoTokenList();
+                deviceUuidList = CdoUtils.getDeviceList();
                 System.out.println(deviceUuidList);
 
             } catch (Exception e) {
