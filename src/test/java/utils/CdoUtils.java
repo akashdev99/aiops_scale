@@ -8,14 +8,20 @@ import org.apache.commons.csv.CSVRecord;
 import scaletest.CdoDataIngestion;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CdoAuthUtils {
+public class CdoUtils {
     private static final String API_TOKENS_FILE = Config.get("api.tokens.file", "api_user_tokens.csv");
     private static final String DEVICE_LIST_FILE  = Config.get("api.device_list.file", "device_uuids.csv");
+    private static final String INSIGHTS_BASE_URL = "https://edge.scale.cdo.cisco.com/api/platform/ai-ops-insights/v1";
 
     public static List<TenantData> getCdoTokenList() throws Exception{
         List<TenantData> columnValues = new ArrayList<>();
@@ -65,5 +71,20 @@ public class CdoAuthUtils {
             }
         }
         return columnValues;
+    }
+
+    public static void cleanInsightForTenant(String token) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(INSIGHTS_BASE_URL+ "/insights"))
+                .header("Authorization", "Bearer " + token)
+                .DELETE()
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println("Status code: " + response.statusCode());
+        System.out.println("Response body: " + response.body());
     }
 }

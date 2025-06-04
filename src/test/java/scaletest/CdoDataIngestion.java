@@ -7,7 +7,7 @@ import io.gatling.javaapi.http.HttpProtocolBuilder;
 import org.xerial.snappy.Snappy;
 import java.io.IOException;
 import java.util.*;
-import utils.CdoAuthUtils;
+import utils.CdoUtils;
 import utils.RemoteWriteUtils;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
@@ -52,7 +52,7 @@ public class CdoDataIngestion extends Simulation {
             try {
                 long maxHeap = Runtime.getRuntime().maxMemory() / (1024 * 1024);
                 System.out.println("max size is" + maxHeap);
-                deviceUuidList = CdoAuthUtils.getDeviceList();
+                deviceUuidList = CdoUtils.getDeviceList();
             } catch (Exception e) {
                 System.out.println("Failed to set tokens");
                 e.printStackTrace();
